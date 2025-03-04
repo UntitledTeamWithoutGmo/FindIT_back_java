@@ -2,11 +2,16 @@ package com.findit.FindIt.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "organization")
 public class Organization {
 
@@ -23,7 +28,7 @@ public class Organization {
     @Column(name = "rating")
     private int rating;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organization")
     private List<Recruiter> recruiters;
 
 }
