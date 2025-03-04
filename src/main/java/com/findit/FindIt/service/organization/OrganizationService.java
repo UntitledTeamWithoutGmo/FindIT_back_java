@@ -11,8 +11,8 @@ import java.util.List;
 @Service
 public interface OrganizationService {
     Organization findOrgById(int id);
-    List<Organization> findAll();
-    Organization saveOrg(OrganizationDTO dto);
+    List<OrganizationDTO> findAll();
+    OrganizationDTO saveOrg(OrganizationDTO dto);
     Organization updateOrg(int id, OrganizationDTO dto);
     void deleteOrg(int id);
 }

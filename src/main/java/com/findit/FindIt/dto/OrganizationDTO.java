@@ -17,6 +17,6 @@ public class OrganizationDTO {
 
     private int rating;
 
-    private List<Recruiter> recruiters;
+    private List<Long> recruiters;
 
 }

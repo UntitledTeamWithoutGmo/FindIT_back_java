@@ -24,5 +24,6 @@ public class RecruiterDTO {
 
     private String password;
 
-    private Organization organization;
+    private String organizationName;
+
 }

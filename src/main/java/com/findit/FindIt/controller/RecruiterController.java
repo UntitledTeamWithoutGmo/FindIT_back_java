@@ -21,7 +21,7 @@ public class RecruiterController {
     private RecruiterService service;
 
     @PostMapping("/register")
-    private ResponseEntity<Recruiter> saveUser(@RequestBody RecruiterDTO dto){
+    private ResponseEntity<RecruiterDTO> saveUser(@RequestBody RecruiterDTO dto){
         return ResponseEntity.status(200).body(service.saveRec(dto));
     }
     @GetMapping("/all")

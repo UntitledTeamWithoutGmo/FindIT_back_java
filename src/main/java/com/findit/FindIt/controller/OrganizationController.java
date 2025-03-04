@@ -21,11 +21,11 @@ public class OrganizationController {
     private OrganizationService service;
 
     @PostMapping("/register")
-    private ResponseEntity<Organization> saveUser(@RequestBody OrganizationDTO dto){
+    private ResponseEntity<OrganizationDTO> saveUser(@RequestBody OrganizationDTO dto){
         return ResponseEntity.status(200).body(service.saveOrg(dto));
     }
     @GetMapping("/all")
-    private ResponseEntity<List<Organization>> getAll(){
+    private ResponseEntity<List<OrganizationDTO>> getAll(){
         return ResponseEntity.status(200).body(service.findAll());
     }
 

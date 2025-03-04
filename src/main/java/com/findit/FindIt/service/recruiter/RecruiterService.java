@@ -13,7 +13,7 @@ import java.util.List;
 public interface RecruiterService {
     Recruiter findRecById(int id);
     List<Recruiter> findAll();
-    Recruiter saveRec(RecruiterDTO dto);
+    RecruiterDTO saveRec(RecruiterDTO dto);
     Recruiter updateRec(int id, RecruiterDTO dto);
     void deleteRec(int id);
 }
