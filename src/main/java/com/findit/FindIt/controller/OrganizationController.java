@@ -30,11 +30,11 @@ public class OrganizationController {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<Organization> getById(@PathVariable int id){
+    private ResponseEntity<OrganizationDTO> getById(@PathVariable int id){
         return ResponseEntity.status(200).body(service.findOrgById(id));
     }
     @PutMapping("/update/{id}")
-    private ResponseEntity<Organization> updateById(@PathVariable int id,@RequestBody OrganizationDTO dto){
+    private ResponseEntity<OrganizationDTO> updateById(@PathVariable int id,@RequestBody OrganizationDTO dto){
 
         return ResponseEntity.status(200).body(service.updateOrg(id,dto));
     }

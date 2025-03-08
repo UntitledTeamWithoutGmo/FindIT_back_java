@@ -14,7 +14,6 @@ public class RecruiterMapper {
         dto.setSurname(recruiter.getSurname());
         dto.setPatronymicName(recruiter.getPatronymicName());
         dto.setEmail(recruiter.getEmail());
-        dto.setPassword(recruiter.getPassword());
         dto.setOrganizationName(recruiter.getOrganization().getName());
 
         return dto;

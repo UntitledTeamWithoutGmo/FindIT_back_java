@@ -1,7 +1,5 @@
 package com.findit.FindIt.dto;
 
-import com.findit.FindIt.entity.Recruiter;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;

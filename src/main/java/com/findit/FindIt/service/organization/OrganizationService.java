@@ -10,9 +10,9 @@ import java.util.List;
 
 @Service
 public interface OrganizationService {
-    Organization findOrgById(int id);
+    OrganizationDTO findOrgById(int id);
     List<OrganizationDTO> findAll();
     OrganizationDTO saveOrg(OrganizationDTO dto);
-    Organization updateOrg(int id, OrganizationDTO dto);
+    OrganizationDTO updateOrg(int id, OrganizationDTO dto);
     void deleteOrg(int id);
 }
