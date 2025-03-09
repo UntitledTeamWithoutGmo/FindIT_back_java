@@ -14,6 +14,9 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" unique="true" primaryKey="true"/>
             </column>
+            <column name="username" type="VARCHAR(100)">
+            <constraints nullable="false"/>
+            </column>
             <column name="name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
