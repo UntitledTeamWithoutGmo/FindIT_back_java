@@ -2,6 +2,7 @@ package com.findit.FindIt.controller;
 
 import com.findit.FindIt.dto.OrganizationDTO;
 import com.findit.FindIt.dto.RecruiterDTO;
+import com.findit.FindIt.dto.RegisterRecruiterDTO;
 import com.findit.FindIt.entity.Organization;
 import com.findit.FindIt.entity.Recruiter;
 import com.findit.FindIt.service.recruiter.RecruiterService;
@@ -21,20 +22,21 @@ public class RecruiterController {
     private RecruiterService service;
 
     @PostMapping("/register")
-    private ResponseEntity<Recruiter> saveUser(@RequestBody RecruiterDTO dto){
+    private ResponseEntity<RecruiterDTO> saveUser(@RequestBody RegisterRecruiterDTO dto){
         return ResponseEntity.status(200).body(service.saveRec(dto));
     }
+
     @GetMapping("/all")
-    private ResponseEntity<List<Recruiter>> getAll(){
+    private ResponseEntity<List<RecruiterDTO>> getAll(){
         return ResponseEntity.status(200).body(service.findAll());
     }
+
     @GetMapping("/{id}")
-    private ResponseEntity<Recruiter> getById(@PathVariable int id){
+    private ResponseEntity<RecruiterDTO> getById(@PathVariable int id){
         return ResponseEntity.status(200).body(service.findRecById(id));
     }
     @PutMapping("/update/{id}")
-    private ResponseEntity<Recruiter> updateById(@PathVariable int id,@RequestBody RecruiterDTO dto){
-
+    private ResponseEntity<RecruiterDTO> updateById(@PathVariable int id,@RequestBody RecruiterDTO dto){
         return ResponseEntity.status(200).body(service.updateRec(id,dto));
     }
     @DeleteMapping("/delete/{id}")

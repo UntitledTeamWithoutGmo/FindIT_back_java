@@ -1,37 +1,27 @@
 package com.findit.FindIt.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-public class UserDTO {
+public class UserRegisterDTO {
 
-
+    @JsonProperty("id")
     private long id;
 
-
+    @JsonProperty("name")
     private String name;
 
-
+    @JsonProperty("surname")
     private String surname;
 
-
+    @JsonProperty("patronymicName")
     private String patronymicName;
 
-
+    @JsonProperty("email")
     private String email;
 
-<<<<<<< HEAD
-
+    @JsonProperty("password")
     private String password;
-
-
-=======
-    @JsonProperty("level")
->>>>>>> refs/heads/gnazarov
-    private int level;
 
 }

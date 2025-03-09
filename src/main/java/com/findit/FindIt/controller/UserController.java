@@ -1,6 +1,7 @@
 package com.findit.FindIt.controller;
 
 import com.findit.FindIt.dto.UserDTO;
+import com.findit.FindIt.dto.UserRegisterDTO;
 import com.findit.FindIt.entity.User;
 import com.findit.FindIt.service.user.UserService;
 import com.findit.FindIt.service.user.UserServiceImpl;
@@ -22,21 +23,21 @@ public class UserController {
     private UserService service;
 
     @PostMapping("/register")
-    private ResponseEntity<User> saveUser(@RequestBody UserDTO dto){
+    private ResponseEntity<UserDTO> saveUser(@RequestBody UserRegisterDTO dto){
         return ResponseEntity.status(200).body(service.saveUser(dto));
     }
 
     @GetMapping("/all")
-    private ResponseEntity<List<User>> getAll(){
+    private ResponseEntity<List<UserDTO>> getAll(){
         return ResponseEntity.status(200).body(service.findAll());
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<User> getById(@PathVariable int id){
+    private ResponseEntity<UserDTO> getById(@PathVariable int id){
         return ResponseEntity.status(200).body(service.findUserById(id));
     }
     @PutMapping("/update/{id}")
-    private ResponseEntity<User> updateById(@PathVariable int id,@RequestBody UserDTO user){
+    private ResponseEntity<UserDTO> updateById(@PathVariable int id,@RequestBody UserDTO user){
 
         return ResponseEntity.status(200).body(service.updateUser(id,user));
     }

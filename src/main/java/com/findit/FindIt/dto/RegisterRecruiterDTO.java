@@ -1,13 +1,9 @@
 package com.findit.FindIt.dto;
 
-import com.findit.FindIt.entity.Organization;
-import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
-public class RecruiterDTO {
-
-    private long id;
+public class RegisterRecruiterDTO {
 
     private String name;
 
@@ -17,6 +13,7 @@ public class RecruiterDTO {
 
     private String email;
 
-    private String organizationName;
+    private String password;
 
+    private String organizationName;
 }
