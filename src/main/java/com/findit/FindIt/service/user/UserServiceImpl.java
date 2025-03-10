@@ -87,6 +87,7 @@ public class UserServiceImpl implements UserService{
         userNew.setEmail(dto.getEmail());
         userNew.setName(dto.getName());
         userNew.setSurname(dto.getSurname());
+        userNew.setUsername(dto.getUsername());
         userNew.setPatronymicName(dto.getPatronymicName());
         userNew.setLevel(dto.getLevel());
         return UserMapper.convertToDto(userRepository.save(userNew));
