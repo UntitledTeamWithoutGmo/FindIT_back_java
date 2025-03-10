@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -33,7 +34,7 @@ public class WebSecurityConfig  {
     private JwtFilter filter;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -43,11 +44,14 @@ public class WebSecurityConfig  {
                 .csrf(csrf-> csrf.disable())
                 .cors(cors-> cors.disable())
                 .authorizeHttpRequests(auth ->
-                auth.requestMatchers("/api/users/register").permitAll()
-                .requestMatchers("/api/users/all").permitAll()
-                .requestMatchers("/api/users/{id}").permitAll()
-                .requestMatchers("/api/users/update/{id}").authenticated()
-                .requestMatchers("/api/users/delete{id}").authenticated()
+                auth.requestMatchers("/api/users/update/{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                        .requestMatchers("/api/users/porn").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/api/users/delete{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                        .requestMatchers("/api/users/register").permitAll()
+                        .requestMatchers("/api/users/login").permitAll()
+                        .requestMatchers("/api/users/all").permitAll()
+                        .requestMatchers("/api/users/{id}").permitAll()
+
                 .anyRequest().permitAll())
                 .sessionManagement(sessiojnManagment-> sessiojnManagment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exception -> exception

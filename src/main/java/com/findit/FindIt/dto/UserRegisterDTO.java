@@ -12,6 +12,9 @@ public class UserRegisterDTO {
     @JsonProperty("name")
     private String name;
 
+    @JsonProperty("username")
+    private String username;
+
     @JsonProperty("surname")
     private String surname;
 

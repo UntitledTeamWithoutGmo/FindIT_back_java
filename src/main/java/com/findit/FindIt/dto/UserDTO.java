@@ -24,14 +24,11 @@ public class UserDTO {
 
     private String email;
 
-<<<<<<< HEAD
+
 
     private String password;
 
 
-=======
-    @JsonProperty("level")
->>>>>>> refs/heads/gnazarov
     private int level;
 
 }
