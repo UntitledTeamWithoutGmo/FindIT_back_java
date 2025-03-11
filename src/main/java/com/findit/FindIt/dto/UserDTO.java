@@ -9,22 +9,25 @@ import lombok.Setter;
 @Data
 public class UserDTO {
 
-    @JsonProperty("id")
+
     private long id;
 
-    @JsonProperty("name")
+
     private String name;
 
-    @JsonProperty("surname")
+
     private String surname;
 
-    @JsonProperty("patronymicName")
+
     private String patronymicName;
 
-    @JsonProperty("email")
+
     private String email;
 
-    @JsonProperty("level")
+    private String username;
+
+
+
     private int level;
 
 }

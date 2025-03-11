@@ -1,18 +1,33 @@
 package com.findit.FindIt.service.user;
 
 import com.findit.FindIt.dto.UserDTO;
+import com.findit.FindIt.dto.UserLoginDto;
 import com.findit.FindIt.dto.UserRegisterDTO;
 import com.findit.FindIt.entity.User;
 import com.findit.FindIt.exception.UserNotFoundException;
+import com.findit.FindIt.jwt.JwtToken;
 import com.findit.FindIt.repository.UserRepository;
+import com.findit.FindIt.service.role.RoleService;
+import com.findit.FindIt.service.userDetails.UserDetailsServiceImpl;
 import com.findit.FindIt.util.PasswordValidator;
 import com.findit.FindIt.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +37,17 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private JwtToken jwtToken;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    private String token;
 
     @Override
     public UserDTO findUserById(int id) {
@@ -38,15 +64,18 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public UserDTO saveUser(UserRegisterDTO dto) {
         User user = new User();
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
+        user.setUsername(dto.getUsername());
         user.setPatronymicName(dto.getPatronymicName());
         user.setEmail(dto.getEmail());
-        user.setPassword(PasswordValidator.validatePassword(dto.getPassword()));
+        user.setPassword(passwordEncoder.encode(PasswordValidator.validatePassword(dto.getPassword())));
         user.setLevel(0);
+        user.setRoles(Set.of(roleService.getUserRole()));
 
         return UserMapper.convertToDto(userRepository.save(user));
     }
@@ -58,6 +87,7 @@ public class UserServiceImpl implements UserService{
         userNew.setEmail(dto.getEmail());
         userNew.setName(dto.getName());
         userNew.setSurname(dto.getSurname());
+        userNew.setUsername(dto.getUsername());
         userNew.setPatronymicName(dto.getPatronymicName());
         userNew.setLevel(dto.getLevel());
         return UserMapper.convertToDto(userRepository.save(userNew));
@@ -69,6 +99,24 @@ public class UserServiceImpl implements UserService{
         Optional<User> user = userRepository.findUserById(id);
         userRepository.delete(user
                 .orElseThrow(() -> new UserNotFoundException("User with id "+id+" not found")));
+    }
+
+
+
+    @Override
+    public ResponseEntity<String> createAuth(@RequestBody UserLoginDto dto) {
+
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getUsername(),dto.getPassword()));
+
+        }catch (BadCredentialsException e){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        UserDetails userDetails = userDetailsService.loadUserByUsername(dto.getUsername());
+        token = jwtToken.generateToken(userDetails);
+
+
+        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,"Bearer "+token).body("Nice");
     }
 
 
