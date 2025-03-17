@@ -10,8 +10,14 @@
     <include file="FindIt-db.changelog/models/1.0/2025-03-02--0003-recruiter.xml"/>
     <include file="FindIt-db.changelog/models/1.0/2025-07-02--0004-role.xml"/>
     <include file="FindIt-db.changelog/models/1.0/2025-07-02--0005-users-role.xml"/>
+    <include file="FindIt-db.changelog/models/1.0/2025-03-18--0006-recruiter-role.xml"/>
+
+<!-- Load data -->
     <include file="FindIt-db.changelog/tabledata/2025-08-03-0001-role-data.xml"/>
     <include file="FindIt-db.changelog/tabledata/2025-08-03-0002-user-data.xml"/>
     <include file="FindIt-db.changelog/tabledata/2025-08-03-0003-users-role-data.xml"/>
+    <include file="FindIt-db.changelog/tabledata/2025-18-03-0004-organization-data.xml"/>
+    <include file="FindIt-db.changelog/tabledata/2025-18-03-0005-recruiter-data.xml"/>
+    <include file="FindIt-db.changelog/tabledata/2025-18-03-0006-recruiter-role-data.xml"/>
 
 </databaseChangeLog>
