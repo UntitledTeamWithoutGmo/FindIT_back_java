@@ -10,6 +10,7 @@ public class RecruiterMapper {
     public RecruiterDTO convertToDto(Recruiter recruiter){
         RecruiterDTO dto = new RecruiterDTO();
         dto.setId(recruiter.getId());
+        dto.setUsername(recruiter.getUsername());
         dto.setName(recruiter.getName());
         dto.setSurname(recruiter.getSurname());
         dto.setPatronymicName(recruiter.getPatronymicName());

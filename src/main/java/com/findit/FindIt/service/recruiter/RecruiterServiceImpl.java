@@ -3,18 +3,23 @@ package com.findit.FindIt.service.recruiter;
 import com.findit.FindIt.dto.RecruiterDTO;
 import com.findit.FindIt.dto.RegisterRecruiterDTO;
 import com.findit.FindIt.entity.Recruiter;
+import com.findit.FindIt.entity.Role;
 import com.findit.FindIt.exception.OrganizationNotFoundException;
+import com.findit.FindIt.exception.RecruiterAlreadyExistsException;
 import com.findit.FindIt.exception.RecruiterNotFoundException;
 import com.findit.FindIt.repository.OrganizationRepository;
 import com.findit.FindIt.repository.RecruiterRepository;
+import com.findit.FindIt.service.role.RoleService;
 import com.findit.FindIt.util.PasswordValidator;
 import com.findit.FindIt.util.RecruiterMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +30,10 @@ public class RecruiterServiceImpl implements RecruiterService{
     private RecruiterRepository recruiterRepository;
     @Autowired
     private OrganizationRepository organizationRepository;
+
+    private PasswordEncoder passwordEncoder;
+
+    private RoleService roleService;
 
 
     @Override
@@ -43,14 +52,28 @@ public class RecruiterServiceImpl implements RecruiterService{
 
     @Override
     public RecruiterDTO saveRec(RegisterRecruiterDTO dto) {
+
+        Optional<Recruiter> optionalRecruiter = recruiterRepository.findByUsername(dto.getUsername());
+        if(optionalRecruiter.isPresent()){
+            throw new RecruiterAlreadyExistsException("Recruiter with username "+dto.getUsername()+" already exists");
+        }
+
         Recruiter recruiter = new Recruiter();
+        recruiter.setUsername(dto.getUsername());
         recruiter.setSurname(dto.getSurname());
         recruiter.setName(dto.getName());
         recruiter.setPatronymicName(dto.getPatronymicName());
         recruiter.setEmail(dto.getEmail());
 
+        Role role = roleService.getRecruiterRole();
+        recruiter.setRoles(Set.of(role));
 
-        recruiter.setPassword(PasswordValidator.validatePassword(dto.getPassword()));
+
+        recruiter.setPassword(passwordEncoder.encode(
+                PasswordValidator.validatePassword(
+                        dto.getPassword()
+                )
+        ));
 
         recruiter.setOrganization(organizationRepository.findByName(dto.getOrganizationName())
                 .orElseThrow(() -> new OrganizationNotFoundException("Organization with name "+dto.getOrganizationName()+" not found")));
@@ -66,6 +89,7 @@ public class RecruiterServiceImpl implements RecruiterService{
         }
 
         Recruiter recruiter = optionalRecruiter.get();
+        recruiter.setUsername(dto.getUsername());
         recruiter.setName(dto.getName());
         recruiter.setSurname(dto.getSurname());
         recruiter.setPatronymicName(dto.getPatronymicName());
@@ -84,4 +108,11 @@ public class RecruiterServiceImpl implements RecruiterService{
                 .orElseThrow(() -> new RecruiterNotFoundException("Recruiter with id "+id+" not found")));
 
     }
+
+    @Override
+    public Recruiter findByUsername(String username) {
+        return recruiterRepository.findByUsername(username).orElseThrow(() -> new RecruiterNotFoundException("Recruiter with username "+username+" not found"));
+    }
+
+
 }
