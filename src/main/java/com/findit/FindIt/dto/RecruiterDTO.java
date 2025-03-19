@@ -9,6 +9,8 @@ public class RecruiterDTO {
 
     private long id;
 
+    private String username;
+
     private String name;
 
     private String surname;
