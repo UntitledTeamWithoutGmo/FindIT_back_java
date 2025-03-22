@@ -7,6 +7,7 @@ import com.findit.FindIt.entity.User;
 import com.findit.FindIt.exception.UserNotFoundException;
 import com.findit.FindIt.jwt.JwtToken;
 import com.findit.FindIt.repository.UserRepository;
+import com.findit.FindIt.service.kafka.KafkaProducer;
 import com.findit.FindIt.service.role.RoleService;
 import com.findit.FindIt.service.userDetails.UserDetailsServiceImpl;
 import com.findit.FindIt.util.PasswordValidator;
@@ -48,6 +49,8 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private AuthenticationManager authenticationManager;
     private String token;
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
     @Override
     public UserDTO findUserById(int id) {
@@ -76,6 +79,8 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(PasswordValidator.validatePassword(dto.getPassword())));
         user.setLevel(0);
         user.setRoles(Set.of(roleService.getUserRole()));
+        kafkaProducer.sendMessage(dto.getUsername());
+
 
         return UserMapper.convertToDto(userRepository.save(user));
     }
