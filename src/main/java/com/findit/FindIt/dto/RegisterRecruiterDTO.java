@@ -7,6 +7,8 @@ public class RegisterRecruiterDTO {
 
     private String name;
 
+    private String username;
+
     private String surname;
 
     private String patronymicName;

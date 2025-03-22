@@ -17,4 +17,5 @@ public interface RecruiterService {
     RecruiterDTO saveRec(RegisterRecruiterDTO dto);
     RecruiterDTO updateRec(int id, RecruiterDTO dto);
     void deleteRec(int id);
+    Recruiter findByUsername(String username);
 }
