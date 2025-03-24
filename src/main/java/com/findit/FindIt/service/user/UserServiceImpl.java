@@ -6,8 +6,9 @@ import com.findit.FindIt.dto.UserRegisterDTO;
 import com.findit.FindIt.entity.User;
 import com.findit.FindIt.exception.UserNotFoundException;
 import com.findit.FindIt.jwt.JwtToken;
+import com.findit.FindIt.jwt.JwtTokenDto;
 import com.findit.FindIt.repository.UserRepository;
-import com.findit.FindIt.service.kafka.KafkaProducer;
+//import com.findit.FindIt.service.kafka.KafkaProducer;
 import com.findit.FindIt.service.role.RoleService;
 import com.findit.FindIt.service.userDetails.UserDetailsServiceImpl;
 import com.findit.FindIt.util.PasswordValidator;
@@ -48,9 +49,10 @@ public class UserServiceImpl implements UserService{
     private JwtToken jwtToken;
     @Autowired
     private AuthenticationManager authenticationManager;
+
     private String token;
-    @Autowired
-    private KafkaProducer kafkaProducer;
+
+//    private KafkaProducer kafkaProducer;
 
     @Override
     public UserDTO findUserById(int id) {
@@ -79,7 +81,7 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(PasswordValidator.validatePassword(dto.getPassword())));
         user.setLevel(0);
         user.setRoles(Set.of(roleService.getUserRole()));
-        kafkaProducer.sendMessage(dto.getUsername());
+//        kafkaProducer.sendMessage(dto.getUsername());
 
 
         return UserMapper.convertToDto(userRepository.save(user));
@@ -109,7 +111,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public ResponseEntity<String> createAuth(@RequestBody UserLoginDto dto) {
+    public ResponseEntity<JwtTokenDto> createAuth(@RequestBody UserLoginDto dto) {
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getUsername(),dto.getPassword()));
@@ -119,9 +121,19 @@ public class UserServiceImpl implements UserService{
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(dto.getUsername());
         token = jwtToken.generateToken(userDetails);
+        JwtTokenDto jwtTokenDto = new JwtTokenDto();
+        jwtTokenDto.setToken(token);
 
 
-        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,"Bearer "+token).body("Nice");
+        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,"Bearer "+token).body(jwtTokenDto);
+    }
+
+    @Override
+    public ResponseEntity<UserDTO> profile(String username) {
+        UserDTO userDTO = UserMapper.convertToDto(userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User with username "+username+" not found")));
+
+        return ResponseEntity.ok().body(userDTO);
     }
 
 

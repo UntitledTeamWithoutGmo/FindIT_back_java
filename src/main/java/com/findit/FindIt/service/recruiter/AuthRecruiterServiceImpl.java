@@ -4,6 +4,7 @@ import com.findit.FindIt.dto.JwtResponse;
 import com.findit.FindIt.dto.RecruiterLoginDTO;
 import com.findit.FindIt.exception.BadAuthCredentialsException;
 import com.findit.FindIt.jwt.JwtToken;
+import com.findit.FindIt.jwt.JwtTokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class AuthRecruiterServiceImpl implements AuthRecruiterService{
     private final UserDetailsService userDetailsService;
 
     @Override
-    public ResponseEntity<String> createAuth(RecruiterLoginDTO loginDto) {
+    public ResponseEntity<JwtTokenDto> createAuth(RecruiterLoginDTO loginDto) {
 
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
@@ -31,9 +32,11 @@ public class AuthRecruiterServiceImpl implements AuthRecruiterService{
             throw new BadAuthCredentialsException("Bad login or password");
 //            return ResponseEntity.ok(new JwtResponse(loginDto.getUsername()));
         }
+        JwtTokenDto jwtTokenDto = new JwtTokenDto();
 
         String token = jwtToken.generateToken(userDetailsService.loadUserByUsername(loginDto.getUsername()));
-        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).body("Successful");
+        jwtTokenDto.setToken(token);
+        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).body(jwtTokenDto);
 //        return ResponseEntity.ok(new JwtResponse(loginDto.getUsername()+loginDto.getPassword()));
     }
 }

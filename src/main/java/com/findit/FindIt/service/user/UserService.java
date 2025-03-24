@@ -4,6 +4,7 @@ import com.findit.FindIt.dto.UserDTO;
 import com.findit.FindIt.dto.UserLoginDto;
 import com.findit.FindIt.dto.UserRegisterDTO;
 import com.findit.FindIt.entity.User;
+import com.findit.FindIt.jwt.JwtTokenDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,8 @@ public interface UserService {
     UserDTO saveUser(UserRegisterDTO dto);
     UserDTO updateUser(int id, UserDTO dto);
     void deleteUser(int id);
-    ResponseEntity<String> createAuth(UserLoginDto dto);
+    ResponseEntity<JwtTokenDto> createAuth(UserLoginDto dto);
+    ResponseEntity<UserDTO> profile(String username);
 
 
 }

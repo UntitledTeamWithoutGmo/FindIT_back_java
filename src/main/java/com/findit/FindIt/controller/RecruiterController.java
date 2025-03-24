@@ -1,6 +1,7 @@
 package com.findit.FindIt.controller;
 
 import com.findit.FindIt.dto.*;
+import com.findit.FindIt.jwt.JwtTokenDto;
 import com.findit.FindIt.service.recruiter.AuthRecruiterService;
 import com.findit.FindIt.service.recruiter.RecruiterService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping("/api/recruiter")
 @RequiredArgsConstructor
@@ -44,7 +46,7 @@ public class RecruiterController {
     }
 
     @PostMapping("/jwt")
-    private ResponseEntity<String> createJwtToken(@RequestBody RecruiterLoginDTO recruiterLoginDTO){
+    private ResponseEntity<JwtTokenDto> createJwtToken(@RequestBody RecruiterLoginDTO recruiterLoginDTO){
         return authRecruiterService.createAuth(recruiterLoginDTO);
     }
 

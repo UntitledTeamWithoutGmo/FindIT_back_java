@@ -46,6 +46,7 @@ public class WebSecurityConfig  {
                 .authorizeHttpRequests(auth ->
                 auth.requestMatchers("/api/users/update/{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                         .requestMatchers("/api/users/porn").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/users/profile").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers("/api/users/delete{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                         .requestMatchers("/api/recruiter/porn2").hasAnyAuthority("ROLE_RECRUITER", "ROLE_ADMIN")
                         .requestMatchers("/api/users/register").permitAll()
