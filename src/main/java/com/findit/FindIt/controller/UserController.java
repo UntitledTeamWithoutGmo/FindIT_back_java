@@ -4,6 +4,7 @@ import com.findit.FindIt.dto.UserDTO;
 import com.findit.FindIt.dto.UserLoginDto;
 import com.findit.FindIt.dto.UserRegisterDTO;
 import com.findit.FindIt.entity.User;
+import com.findit.FindIt.jwt.JwtTokenDto;
 import com.findit.FindIt.service.user.AuthUserService;
 import com.findit.FindIt.service.user.UserService;
 import com.findit.FindIt.service.user.UserServiceImpl;
@@ -12,11 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -34,10 +36,15 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    private ResponseEntity<String> login(@RequestBody UserLoginDto dto){
-        return authUserService.createAuth(dto);
+    private ResponseEntity<JwtTokenDto> login(@RequestBody UserLoginDto dto){
+        return service.createAuth(dto);
 
     }
+    @GetMapping("/profile")
+    private ResponseEntity<UserDTO> profile(@AuthenticationPrincipal String username){
+        return service.profile(username);
+    }
+
     @GetMapping("/porn")
     private ResponseEntity<String> porn(){
         return ResponseEntity.status(200).body("Shut up fuck up,keep on suck my dick");

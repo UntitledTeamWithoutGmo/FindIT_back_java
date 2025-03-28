@@ -1,29 +1,30 @@
 package com.findit.FindIt.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.ObjectPostProcessor;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -42,10 +43,11 @@ public class WebSecurityConfig  {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(csrf-> csrf.disable())
-                .cors(cors-> cors.disable())
+                .cors(cors-> Customizer.withDefaults())
                 .authorizeHttpRequests(auth ->
                 auth.requestMatchers("/api/users/update/{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                         .requestMatchers("/api/users/porn").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/users/profile").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers("/api/users/delete{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                         .requestMatchers("/api/recruiter/porn2").hasAnyAuthority("ROLE_RECRUITER", "ROLE_ADMIN")
                         .requestMatchers("/api/users/register").permitAll()
@@ -53,6 +55,8 @@ public class WebSecurityConfig  {
                         .requestMatchers("/api/users/all").permitAll()
                         .requestMatchers("/api/users/{id}").permitAll()
                         .requestMatchers("/api/recruiter/jwt").permitAll()
+                        .requestMatchers("/api/recruiter/profile").hasAnyAuthority("ROLE_RECRUITER", "ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
                 .anyRequest().permitAll())
                 .sessionManagement(sessiojnManagment-> sessiojnManagment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -68,6 +72,9 @@ public class WebSecurityConfig  {
 
 
     }
+
+
+
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(){
