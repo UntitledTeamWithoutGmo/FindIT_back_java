@@ -1,8 +1,10 @@
 package com.findit.FindIt.repository;
 
+import com.findit.FindIt.dto.RecruiterDTO;
 import com.findit.FindIt.entity.Organization;
 import com.findit.FindIt.entity.Recruiter;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,4 +15,6 @@ public interface RecruiterRepository extends JpaRepository<Recruiter,Long> {
     Optional<Recruiter> findById(int id);
     List<Recruiter> findAll();
     Optional<Recruiter> findByUsername(String username);
+
+
 }

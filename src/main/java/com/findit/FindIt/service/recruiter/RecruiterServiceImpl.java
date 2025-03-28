@@ -2,18 +2,22 @@ package com.findit.FindIt.service.recruiter;
 
 import com.findit.FindIt.dto.RecruiterDTO;
 import com.findit.FindIt.dto.RegisterRecruiterDTO;
+import com.findit.FindIt.dto.UserDTO;
 import com.findit.FindIt.entity.Recruiter;
 import com.findit.FindIt.entity.Role;
 import com.findit.FindIt.exception.OrganizationNotFoundException;
 import com.findit.FindIt.exception.RecruiterAlreadyExistsException;
 import com.findit.FindIt.exception.RecruiterNotFoundException;
+import com.findit.FindIt.exception.UserNotFoundException;
 import com.findit.FindIt.repository.OrganizationRepository;
 import com.findit.FindIt.repository.RecruiterRepository;
 import com.findit.FindIt.service.role.RoleService;
 import com.findit.FindIt.util.PasswordValidator;
 import com.findit.FindIt.util.RecruiterMapper;
+import com.findit.FindIt.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +35,10 @@ public class RecruiterServiceImpl implements RecruiterService{
     @Autowired
     private OrganizationRepository organizationRepository;
 
+
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
     private RoleService roleService;
 
 
@@ -112,6 +118,13 @@ public class RecruiterServiceImpl implements RecruiterService{
     @Override
     public Recruiter findByUsername(String username) {
         return recruiterRepository.findByUsername(username).orElseThrow(() -> new RecruiterNotFoundException("Recruiter with username "+username+" not found"));
+    }
+    @Override
+    public ResponseEntity<RecruiterDTO> profile(String username) {
+        RecruiterDTO recruiterDTO = RecruiterMapper.convertToDto(recruiterRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User with username "+username+" not found")));
+
+        return ResponseEntity.ok().body(recruiterDTO);
     }
 
 

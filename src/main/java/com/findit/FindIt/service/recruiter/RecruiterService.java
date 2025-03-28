@@ -6,6 +6,7 @@ import com.findit.FindIt.dto.RegisterRecruiterDTO;
 import com.findit.FindIt.entity.Organization;
 import com.findit.FindIt.entity.Recruiter;
 import lombok.Setter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,4 +19,5 @@ public interface RecruiterService {
     RecruiterDTO updateRec(int id, RecruiterDTO dto);
     void deleteRec(int id);
     Recruiter findByUsername(String username);
+    ResponseEntity<RecruiterDTO> profile(String username);
 }

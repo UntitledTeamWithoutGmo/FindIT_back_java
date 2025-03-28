@@ -4,6 +4,7 @@ import com.findit.FindIt.dto.UserDTO;
 import com.findit.FindIt.dto.UserLoginDto;
 import com.findit.FindIt.dto.UserRegisterDTO;
 import com.findit.FindIt.entity.User;
+import com.findit.FindIt.exception.UserAlreadyExistException;
 import com.findit.FindIt.exception.UserNotFoundException;
 import com.findit.FindIt.jwt.JwtToken;
 import com.findit.FindIt.jwt.JwtTokenDto;
@@ -72,6 +73,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO saveUser(UserRegisterDTO dto) {
+        if(userRepository.findUserByUsername(dto.getUsername()).isPresent()){
+            throw new UserAlreadyExistException("Username "+dto.getUsername()+" already exists");
+
+        }
         User user = new User();
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());

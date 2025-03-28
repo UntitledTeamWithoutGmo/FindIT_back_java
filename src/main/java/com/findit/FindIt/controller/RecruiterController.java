@@ -7,6 +7,7 @@ import com.findit.FindIt.service.recruiter.RecruiterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +36,11 @@ public class RecruiterController {
     private ResponseEntity<RecruiterDTO> getById(@PathVariable int id){
         return ResponseEntity.status(200).body(recruiterService.findRecById(id));
     }
+    @GetMapping("/profile")
+    private ResponseEntity<RecruiterDTO> profile(@AuthenticationPrincipal String username){
+        return recruiterService.profile(username);
+    }
+
     @PutMapping("/update/{id}")
     private ResponseEntity<RecruiterDTO> updateById(@PathVariable int id,@RequestBody RecruiterDTO dto){
         return ResponseEntity.status(200).body(recruiterService.updateRec(id,dto));
