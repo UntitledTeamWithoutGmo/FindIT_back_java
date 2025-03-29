@@ -21,6 +21,7 @@ public interface UserService {
     void deleteUser(int id);
     ResponseEntity<JwtTokenDto> createAuth(UserLoginDto dto);
     ResponseEntity<UserDTO> profile(String username);
+    ResponseEntity<String> listen(String username);
 
 
 }

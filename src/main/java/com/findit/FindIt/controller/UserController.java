@@ -5,6 +5,7 @@ import com.findit.FindIt.dto.UserLoginDto;
 import com.findit.FindIt.dto.UserRegisterDTO;
 import com.findit.FindIt.entity.User;
 import com.findit.FindIt.jwt.JwtTokenDto;
+import com.findit.FindIt.kafka.KafkaConsumer;
 import com.findit.FindIt.service.user.AuthUserService;
 import com.findit.FindIt.service.user.UserService;
 import com.findit.FindIt.service.user.UserServiceImpl;
@@ -28,6 +29,7 @@ public class UserController {
     private UserService service;
     @Autowired
     private AuthUserService authUserService;
+
 
 
     @PostMapping("/register")
@@ -55,9 +57,15 @@ public class UserController {
         return ResponseEntity.status(200).body(service.findAll());
     }
 
+
+
     @GetMapping("/{id}")
     private ResponseEntity<UserDTO> getById(@PathVariable int id){
         return ResponseEntity.status(200).body(service.findUserById(id));
+    }
+    @PutMapping("/listen")
+    private ResponseEntity<String> listen(@AuthenticationPrincipal String username){
+        return service.listen(username);
     }
     @PutMapping("/update/{id}")
     private ResponseEntity<UserDTO> updateById(@PathVariable int id,@RequestBody UserDTO user){
