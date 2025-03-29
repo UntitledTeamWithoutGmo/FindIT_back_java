@@ -1,7 +1,7 @@
 
 services:
   backend:
-    image: find_it_back
+    image: find_it_back_main
     build:
       context: .
     depends_on:

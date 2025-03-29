@@ -3,6 +3,7 @@ package com.findit.FindIt.util;
 import com.findit.FindIt.dto.OrganizationDTO;
 import com.findit.FindIt.entity.Organization;
 import com.findit.FindIt.entity.Recruiter;
+import com.findit.FindIt.entity.Vacancy;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
@@ -18,11 +19,17 @@ public class OrganizationMapper {
         dto.setDescription(organization.getDescription());
         dto.setRating(organization.getRating());
 
-        List<Long> list = new ArrayList<>();
+        List<Long> listRecruiters = new ArrayList<>();
+        List<Long> listVacancy = new ArrayList<>();
         for(Recruiter recruiter : organization.getRecruiters()){
-            list.add(recruiter.getId());
+            listRecruiters.add(recruiter.getId());
         }
-        dto.setRecruiters(list);
+        for(Vacancy vacancy:organization.getVacancies()){
+            listVacancy.add(vacancy.getId());
+        }
+
+        dto.setRecruiters(listRecruiters);
+        dto.setVacancies(listVacancy);
 
         return dto;
     }

@@ -22,6 +22,7 @@ public class RecruiterController {
     private RecruiterService recruiterService;
     private final AuthRecruiterService authRecruiterService;
 
+
     @PostMapping("/register")
     private ResponseEntity<RecruiterDTO> saveUser(@RequestBody RegisterRecruiterDTO dto){
         return ResponseEntity.status(200).body(recruiterService.saveRec(dto));
@@ -55,6 +56,8 @@ public class RecruiterController {
     private ResponseEntity<JwtTokenDto> createJwtToken(@RequestBody RecruiterLoginDTO recruiterLoginDTO){
         return authRecruiterService.createAuth(recruiterLoginDTO);
     }
+
+
 
     @GetMapping("/porn2")
     public ResponseEntity<String> securedRecruiterField(){

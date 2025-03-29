@@ -56,6 +56,8 @@ public class WebSecurityConfig  {
                         .requestMatchers("/api/users/{id}").permitAll()
                         .requestMatchers("/api/recruiter/jwt").permitAll()
                         .requestMatchers("/api/recruiter/profile").hasAnyAuthority("ROLE_RECRUITER", "ROLE_ADMIN")
+                        .requestMatchers("/api/vacancy/create").hasAnyAuthority("ROLE_RECRUITER", "ROLE_ADMIN")
+                        .requestMatchers("/api/vacancy/all").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
                 .anyRequest().permitAll())

@@ -8,6 +8,7 @@ import com.findit.FindIt.exception.UserAlreadyExistException;
 import com.findit.FindIt.exception.UserNotFoundException;
 import com.findit.FindIt.jwt.JwtToken;
 import com.findit.FindIt.jwt.JwtTokenDto;
+import com.findit.FindIt.kafka.KafkaConsumer;
 import com.findit.FindIt.repository.UserRepository;
 //import com.findit.FindIt.service.kafka.KafkaProducer;
 import com.findit.FindIt.service.role.RoleService;
@@ -50,6 +51,8 @@ public class UserServiceImpl implements UserService{
     private JwtToken jwtToken;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private KafkaConsumer kafkaConsumer;
 
     private String token;
 
@@ -139,6 +142,20 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(() -> new UserNotFoundException("User with username "+username+" not found")));
 
         return ResponseEntity.ok().body(userDTO);
+    }
+
+    @Override
+    public ResponseEntity<String> listen(String username) {
+        if(kafkaConsumer.getMessageKafka().equals("Hello pidoras")){
+            Optional<User> userOptional = userRepository.findUserByUsername(username);
+            User user = userOptional.orElseThrow(() -> new UserNotFoundException("User with username "+username+" not found"));
+            int level = user.getLevel();
+            user.setLevel(level+2);
+            userRepository.save(user);
+            return ResponseEntity.status(200).body("Good");
+
+        }
+        return ResponseEntity.status(200).body("Bad");
     }
 
 
