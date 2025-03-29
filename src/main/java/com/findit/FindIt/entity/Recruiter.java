@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -41,6 +42,9 @@ public class Recruiter {
     @ManyToOne
     @JoinColumn(name = "organization_id")
     private Organization organization;
+
+    @OneToMany(mappedBy = "recruiter")
+    private List<Vacancy> vacancies;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "recruiter_role",

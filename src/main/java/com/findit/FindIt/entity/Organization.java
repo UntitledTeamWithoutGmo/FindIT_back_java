@@ -31,4 +31,7 @@ public class Organization {
     @OneToMany(mappedBy = "organization")
     private List<Recruiter> recruiters;
 
+    @OneToMany(mappedBy = "organization")
+    private List<Vacancy> vacancies;
+
 }

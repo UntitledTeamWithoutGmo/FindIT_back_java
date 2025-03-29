@@ -29,8 +29,7 @@ public class UserController {
     private UserService service;
     @Autowired
     private AuthUserService authUserService;
-    @Autowired
-    private KafkaConsumer kafkaConsumer;
+
 
 
     @PostMapping("/register")
@@ -58,14 +57,15 @@ public class UserController {
         return ResponseEntity.status(200).body(service.findAll());
     }
 
-    @GetMapping("/listen")
-    private ResponseEntity<String> listen(){
-        return ResponseEntity.status(200).body(kafkaConsumer.getMessageKafka());
-    }
+
 
     @GetMapping("/{id}")
     private ResponseEntity<UserDTO> getById(@PathVariable int id){
         return ResponseEntity.status(200).body(service.findUserById(id));
+    }
+    @PutMapping("/listen")
+    private ResponseEntity<String> listen(@AuthenticationPrincipal String username){
+        return service.listen(username);
     }
     @PutMapping("/update/{id}")
     private ResponseEntity<UserDTO> updateById(@PathVariable int id,@RequestBody UserDTO user){

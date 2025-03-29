@@ -13,6 +13,7 @@ public class KafkaConsumer {
     @KafkaListener(topics = "code",groupId = "my_code")
     public void kafkaListen(String message){
         messageKafka=message;
+
     }
 
 }
