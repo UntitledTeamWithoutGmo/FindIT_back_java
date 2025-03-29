@@ -1,0 +1,4 @@
+username;name;surname;patronymic_name;email;password;level
+dnr0vec;Kirill;Zolotarevskiy;Sergeevich;kirillzolotarevskiy62@gmail.com;$2a$12$eXasqsBW7LlXOMukEeisneXqetHAB3pNCNFRw/5qi1wMupY32P9C6;0
+gnazarov;Georgiy;Nazarov;Nickolaevich;georgii.nazarov@gmail.com;$2a$12$JNTHxtHLMmy3JrFG7CtWc.VHSeuuzYYZbANwsGcAhVXvnrJlyMCp.;0
+user;User;Userov;Userovich;user@example.com;$2a$12$O4o5Y3B9JX.HctRQEoFYLO2fLrrlKB6FlqrUf9UBqQzFRkVWZwsZ.;0

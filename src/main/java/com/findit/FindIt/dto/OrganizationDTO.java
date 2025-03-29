@@ -1,7 +1,5 @@
 package com.findit.FindIt.dto;
 
-import com.findit.FindIt.entity.Recruiter;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -17,6 +15,7 @@ public class OrganizationDTO {
 
     private int rating;
 
-    private List<Recruiter> recruiters;
+    private List<Long> recruiters;
+    private List<Long> vacancies;
 
 }
