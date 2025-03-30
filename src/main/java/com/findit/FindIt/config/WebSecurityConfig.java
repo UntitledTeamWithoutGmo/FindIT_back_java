@@ -58,6 +58,8 @@ public class WebSecurityConfig  {
                         .requestMatchers("/api/recruiter/profile").hasAnyAuthority("ROLE_RECRUITER", "ROLE_ADMIN")
                         .requestMatchers("/api/vacancy/create").hasAnyAuthority("ROLE_RECRUITER", "ROLE_ADMIN")
                         .requestMatchers("/api/vacancy/all").permitAll()
+                        .requestMatchers("api/vacancy/call/{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                        .requestMatchers("api/users/listen").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
                 .anyRequest().permitAll())

@@ -5,6 +5,8 @@ import com.findit.FindIt.entity.Recruiter;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class VacancyDTO {
 
@@ -20,4 +22,5 @@ public class VacancyDTO {
 
     private String recruiter;
     private String price;
+    private List<Long> users;
 }

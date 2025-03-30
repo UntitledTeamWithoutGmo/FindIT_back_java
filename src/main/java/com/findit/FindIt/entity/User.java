@@ -1,5 +1,6 @@
 package com.findit.FindIt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -47,6 +48,10 @@ public class User implements UserDetails {
 
     @Column(name = "level")
     private int level;
+
+    @ManyToMany
+    @JoinTable(name = "users_vacancy",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
+    private Set<Vacancy> vacancies;
 
 
     @Override

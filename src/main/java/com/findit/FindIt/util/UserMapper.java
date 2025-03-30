@@ -2,7 +2,13 @@ package com.findit.FindIt.util;
 
 import com.findit.FindIt.dto.UserDTO;
 import com.findit.FindIt.entity.User;
+import com.findit.FindIt.entity.Vacancy;
 import lombok.experimental.UtilityClass;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @UtilityClass
 public class UserMapper {
@@ -16,6 +22,11 @@ public class UserMapper {
         dto.setPatronymicName(user.getPatronymicName());
         dto.setEmail(user.getEmail());
         dto.setLevel(user.getLevel());
+        List<Long> vacancyList = new ArrayList<>();
+        for(Vacancy vacancy:user.getVacancies()){
+            vacancyList.add(vacancy.getId());
+        }
+        dto.setVacancies(vacancyList);
 
         return dto;
     }

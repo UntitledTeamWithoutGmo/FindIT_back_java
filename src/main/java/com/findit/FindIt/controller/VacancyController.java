@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/vacancy")
 public class VacancyController {
@@ -24,5 +25,9 @@ public class VacancyController {
     @GetMapping("/all")
     ResponseEntity<List<VacancyDTO>> findAll(){
         return ResponseEntity.status(200).body(vacancyService.findAll());
+    }
+    @PutMapping("/call/{id}")
+    ResponseEntity<VacancyDTO> call(@AuthenticationPrincipal String username,@PathVariable int id){
+        return ResponseEntity.status(200).body(vacancyService.callOnVacancy(username,id));
     }
 }

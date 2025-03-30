@@ -1,0 +1,29 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="2025-03-30--0008-users-vacancy" author="dr0vec">
+        <preConditions>
+            <not>
+                <tableExists tableName="users_vacancy"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="users_vacancy">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_users_vacancy" referencedTableName="users"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="vacancy_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_vacancy_users" referencedTableName="vacancy"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

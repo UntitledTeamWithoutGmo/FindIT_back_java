@@ -3,6 +3,9 @@ package com.findit.FindIt.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "vacancy")
 @Data
@@ -21,6 +24,8 @@ public class Vacancy {
     @ManyToOne
     @JoinColumn(name = "organization_id")
     private Organization organization;
+    @ManyToMany(mappedBy = "vacancies")
+    private Set<User> users;
     @ManyToOne
     @JoinColumn(name = "recruiter_id")
     private Recruiter recruiter;

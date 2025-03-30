@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Data
 public class UserDTO {
 
@@ -22,5 +24,6 @@ public class UserDTO {
     private String username;
 
     private int level;
+    private List<Long> vacancies;
 
 }

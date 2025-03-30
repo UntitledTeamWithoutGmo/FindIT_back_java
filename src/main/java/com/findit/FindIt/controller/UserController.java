@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -29,8 +30,6 @@ public class UserController {
     private UserService service;
     @Autowired
     private AuthUserService authUserService;
-
-
 
     @PostMapping("/register")
     private ResponseEntity<UserDTO> saveUser(@RequestBody UserRegisterDTO dto){

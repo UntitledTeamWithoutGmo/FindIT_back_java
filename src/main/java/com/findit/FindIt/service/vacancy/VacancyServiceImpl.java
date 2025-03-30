@@ -4,19 +4,25 @@ import com.findit.FindIt.dto.VacancyDTO;
 import com.findit.FindIt.dto.VacancyRegisterDto;
 import com.findit.FindIt.entity.Organization;
 import com.findit.FindIt.entity.Recruiter;
+import com.findit.FindIt.entity.User;
 import com.findit.FindIt.entity.Vacancy;
 import com.findit.FindIt.exception.OrganizationNotFoundException;
 import com.findit.FindIt.exception.RecruiterNotFoundException;
+import com.findit.FindIt.exception.UserNotFoundException;
+import com.findit.FindIt.exception.VacancyNotFound;
 import com.findit.FindIt.repository.OrganizationRepository;
 import com.findit.FindIt.repository.RecruiterRepository;
+import com.findit.FindIt.repository.UserRepository;
 import com.findit.FindIt.repository.VacancyRepository;
 import com.findit.FindIt.service.organization.OrganizationServiceImpl;
 import com.findit.FindIt.util.VacancyMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +33,8 @@ public class VacancyServiceImpl implements VacancyService{
     private RecruiterRepository recruiterRepository;
     @Autowired
     private OrganizationRepository organizationRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Override
@@ -40,6 +48,7 @@ public class VacancyServiceImpl implements VacancyService{
         vacancy.setTaskLink(registerDto.getTaskLink());
         vacancy.setOrganization(organization);
         vacancy.setRecruiter(recruiter);
+        vacancy.setUsers(Set.of());
         if(registerDto.getPrice()==null){
             vacancy.setPrice("nullable");
         }
@@ -63,5 +72,17 @@ public class VacancyServiceImpl implements VacancyService{
                 .stream()
                 .map(VacancyMapper::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public VacancyDTO callOnVacancy(String username, int id) {
+        Vacancy vacancy = repository.findById(id).orElseThrow(() -> new VacancyNotFound("Vacancy with id "+id+" not found"));
+        Optional<User> userOpt = userRepository.findUserByUsername(username);
+        User user = userOpt.orElseThrow(() -> new UserNotFoundException("User with name "+username+" not found"));
+        vacancy.getUsers().add(user);
+        user.getVacancies().add(vacancy);
+        userRepository.save(user);
+        return VacancyMapper.convertToDto(repository.save(vacancy));
     }
 }

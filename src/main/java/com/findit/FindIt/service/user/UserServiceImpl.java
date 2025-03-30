@@ -89,6 +89,8 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(PasswordValidator.validatePassword(dto.getPassword())));
         user.setLevel(0);
         user.setRoles(Set.of(roleService.getUserRole()));
+        user.setVacancies(Set.of());
+
 //        kafkaProducer.sendMessage(dto.getUsername());
 
 
@@ -146,7 +148,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ResponseEntity<String> listen(String username) {
-        if(kafkaConsumer.getMessageKafka().equals("Hello pidoras")){
+        if(kafkaConsumer.getMessageKafka().equals("\"pidor\"")){
             Optional<User> userOptional = userRepository.findUserByUsername(username);
             User user = userOptional.orElseThrow(() -> new UserNotFoundException("User with username "+username+" not found"));
             int level = user.getLevel();
@@ -155,7 +157,7 @@ public class UserServiceImpl implements UserService{
             return ResponseEntity.status(200).body("Good");
 
         }
-        return ResponseEntity.status(200).body("Bad");
+        return ResponseEntity.status(200).body(kafkaConsumer.getMessageKafka());
     }
 
 

@@ -11,4 +11,5 @@ import java.util.List;
 public interface VacancyService {
     VacancyDTO saveVacancy(VacancyRegisterDto registerDto,String recruiterUserName);
     List<VacancyDTO> findAll();
+    VacancyDTO callOnVacancy(String username,int id);
 }

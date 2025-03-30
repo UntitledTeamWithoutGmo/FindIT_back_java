@@ -53,6 +53,7 @@ public class OrganizationServiceImpl implements OrganizationService{
         organization.setRating(0);
 
         organization.setRecruiters(List.of());
+        organization.setVacancies(List.of());
 
 //        for(long id : dto.getRecruiters()){
 //            Optional<Recruiter> optionalRecruiter = recruiterRepository.findById(id);
