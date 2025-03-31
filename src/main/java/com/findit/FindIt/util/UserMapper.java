@@ -4,11 +4,9 @@ import com.findit.FindIt.dto.UserDTO;
 import com.findit.FindIt.entity.User;
 import com.findit.FindIt.entity.Vacancy;
 import lombok.experimental.UtilityClass;
+import org.apache.kafka.common.protocol.types.Field;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @UtilityClass
 public class UserMapper {
@@ -23,8 +21,18 @@ public class UserMapper {
         dto.setEmail(user.getEmail());
         dto.setLevel(user.getLevel());
         List<Long> vacancyList = new ArrayList<>();
+
+
         for(Vacancy vacancy:user.getVacancies()){
             vacancyList.add(vacancy.getId());
+        }
+        if(user.getDescription()!=null){
+            dto.setDescription(user.getDescription());
+        }
+        if(user.getStackTech()!=null){
+            String[] stackArr = user.getStackTech().split(",");
+            List<String> stackArrList = new ArrayList<>(Arrays.asList(stackArr));
+            dto.setStackTech(stackArrList);
         }
         dto.setVacancies(vacancyList);
 

@@ -30,4 +30,12 @@ public class VacancyController {
     ResponseEntity<VacancyDTO> call(@AuthenticationPrincipal String username,@PathVariable int id){
         return ResponseEntity.status(200).body(vacancyService.callOnVacancy(username,id));
     }
+    @GetMapping("/{id}")
+    ResponseEntity<VacancyDTO> findById(@PathVariable int id){
+        return ResponseEntity.status(200).body(vacancyService.findById(id));
+    }
+    @GetMapping("/search/{title}")
+    ResponseEntity<List<VacancyDTO>> findByTitle(@PathVariable String title){
+        return ResponseEntity.status(200).body(vacancyService.findByTitle(title));
+    }
 }

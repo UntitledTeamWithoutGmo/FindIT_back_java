@@ -3,6 +3,7 @@ package com.findit.FindIt.service.user;
 import com.findit.FindIt.dto.UserDTO;
 import com.findit.FindIt.dto.UserLoginDto;
 import com.findit.FindIt.dto.UserRegisterDTO;
+import com.findit.FindIt.dto.UserUpdateDto;
 import com.findit.FindIt.entity.User;
 import com.findit.FindIt.exception.UserAlreadyExistException;
 import com.findit.FindIt.exception.UserNotFoundException;
@@ -90,6 +91,8 @@ public class UserServiceImpl implements UserService{
         user.setLevel(0);
         user.setRoles(Set.of(roleService.getUserRole()));
         user.setVacancies(Set.of());
+        user.setDescription(dto.getDescription());
+        user.setStackTech(dto.getStackTech());
 
 //        kafkaProducer.sendMessage(dto.getUsername());
 
@@ -98,7 +101,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO updateUser(int id, UserDTO dto) {
+    public UserDTO updateUser(int id, UserUpdateDto dto) {
         Optional<User> userOpt = userRepository.findUserById(id);
         User userNew = userOpt.orElseThrow(() -> new UserNotFoundException("User with id "+id+" not found"));
         userNew.setEmail(dto.getEmail());
@@ -107,6 +110,8 @@ public class UserServiceImpl implements UserService{
         userNew.setUsername(dto.getUsername());
         userNew.setPatronymicName(dto.getPatronymicName());
         userNew.setLevel(dto.getLevel());
+        userNew.setDescription(dto.getDescription());
+        userNew.setStackTech(dto.getStackTech());
         return UserMapper.convertToDto(userRepository.save(userNew));
 
     }
@@ -148,16 +153,19 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ResponseEntity<String> listen(String username) {
-        if(kafkaConsumer.getMessageKafka().equals("\"pidor\"")){
+        String mesKaf = kafkaConsumer.getMessageKafka();
+        if(mesKaf.equals("\"pidor\"")){
             Optional<User> userOptional = userRepository.findUserByUsername(username);
             User user = userOptional.orElseThrow(() -> new UserNotFoundException("User with username "+username+" not found"));
             int level = user.getLevel();
             user.setLevel(level+2);
             userRepository.save(user);
+            mesKaf = "Jopa";
             return ResponseEntity.status(200).body("Good");
 
+
         }
-        return ResponseEntity.status(200).body(kafkaConsumer.getMessageKafka());
+        return ResponseEntity.status(300).body(kafkaConsumer.getMessageKafka());
     }
 
 

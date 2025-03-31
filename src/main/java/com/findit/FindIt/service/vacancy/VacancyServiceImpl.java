@@ -20,6 +20,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -85,4 +86,22 @@ public class VacancyServiceImpl implements VacancyService{
         userRepository.save(user);
         return VacancyMapper.convertToDto(repository.save(vacancy));
     }
+
+    @Override
+    public VacancyDTO findById(int id) {
+        Vacancy vacancy = repository.findById(id).orElseThrow(() -> new VacancyNotFound("Vacancy with id "+id+" not found"));
+        return VacancyMapper.convertToDto(vacancy);
+    }
+
+    @Override
+    public List<VacancyDTO> findByTitle(String title) {
+        List<Vacancy> listVac= repository.findByTitle(title);
+        List<VacancyDTO> listVacDto =new ArrayList<>();
+        for(Vacancy vacancy:listVac){
+            listVacDto.add(VacancyMapper.convertToDto(vacancy));
+        }
+        return listVacDto;
+    }
+
+
 }

@@ -35,6 +35,12 @@
             <column name="level" type="INT">
                 <constraints nullable="true"/>
             </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="stack_tech" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
     </changeSet>
 

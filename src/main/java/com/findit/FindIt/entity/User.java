@@ -43,6 +43,12 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Column(name="description")
+    private String description;
+
+    @Column(name = "stack_tech")
+    private String stackTech;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 

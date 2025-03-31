@@ -3,6 +3,7 @@ package com.findit.FindIt.controller;
 import com.findit.FindIt.dto.UserDTO;
 import com.findit.FindIt.dto.UserLoginDto;
 import com.findit.FindIt.dto.UserRegisterDTO;
+import com.findit.FindIt.dto.UserUpdateDto;
 import com.findit.FindIt.entity.User;
 import com.findit.FindIt.jwt.JwtTokenDto;
 import com.findit.FindIt.kafka.KafkaConsumer;
@@ -67,7 +68,7 @@ public class UserController {
         return service.listen(username);
     }
     @PutMapping("/update/{id}")
-    private ResponseEntity<UserDTO> updateById(@PathVariable int id,@RequestBody UserDTO user){
+    private ResponseEntity<UserDTO> updateById(@PathVariable int id,@RequestBody UserUpdateDto user){
 
         return ResponseEntity.status(200).body(service.updateUser(id,user));
     }

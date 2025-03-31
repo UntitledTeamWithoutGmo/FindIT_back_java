@@ -25,5 +25,7 @@ public class UserDTO {
 
     private int level;
     private List<Long> vacancies;
+    private List<String> stackTech;
+    private String description;
 
 }
