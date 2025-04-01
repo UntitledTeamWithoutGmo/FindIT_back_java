@@ -35,7 +35,7 @@ public class RecruiterServiceImpl implements RecruiterService{
     @Autowired
     private OrganizationRepository organizationRepository;
 
-
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -70,6 +70,7 @@ public class RecruiterServiceImpl implements RecruiterService{
         recruiter.setName(dto.getName());
         recruiter.setPatronymicName(dto.getPatronymicName());
         recruiter.setEmail(dto.getEmail());
+        recruiter.setVacancies(List.of());
 
         Role role = roleService.getRecruiterRole();
         recruiter.setRoles(Set.of(role));
