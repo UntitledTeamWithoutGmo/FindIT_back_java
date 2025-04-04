@@ -42,7 +42,7 @@ public class VacancyServiceImpl implements VacancyService{
     public VacancyDTO saveVacancy(VacancyRegisterDto registerDto,String recruiterUserName) {
         Recruiter recruiter = recruiterRepository.findByUsername(recruiterUserName)
                 .orElseThrow(() -> new RecruiterNotFoundException("Recruiter with username "+recruiterUserName+" not found"));
-        Organization organization = recruiter.getOrganization();
+        Organization organization = organizationRepository.findById(recruiter.getOrganization().getId()).orElseThrow(() -> new OrganizationNotFoundException("Organization with id "+recruiter.getOrganization().getId()+" not found"));
         Vacancy vacancy = new Vacancy();
         vacancy.setTitle(registerDto.getTitle());
         vacancy.setDescription(registerDto.getDescription());

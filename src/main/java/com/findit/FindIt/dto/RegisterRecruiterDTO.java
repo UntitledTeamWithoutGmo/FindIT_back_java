@@ -13,6 +13,7 @@ public class RegisterRecruiterDTO {
 
     private String patronymicName;
 
+
     private String email;
 
     private String password;

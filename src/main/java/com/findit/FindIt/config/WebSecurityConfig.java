@@ -22,9 +22,10 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -43,7 +44,7 @@ public class WebSecurityConfig  {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(csrf-> csrf.disable())
-                .cors(cors-> Customizer.withDefaults())
+                .cors(cors->cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth ->
                 auth.requestMatchers("/api/users/update/{id}").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                         .requestMatchers("/api/users/porn").hasAuthority("ROLE_ADMIN")
@@ -76,6 +77,21 @@ public class WebSecurityConfig  {
 
 
     }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("*"));
+        config.setAllowedMethods(List.of("*"));
+        config.setAllowedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
+
+
 
 
 
