@@ -33,7 +33,7 @@
 * GoNazarShan - backend-разработчик -> https://github.com/GoNazarShan
 * TeRrAiSt28 - frontend-разработчик -> https://github.com/TeRrAiSt28
 * DivineIntellect88 - UI/UX дизайнер -> https://github.com/DivineIntellect88
->>>>>>> c584af6daf580f50c5b9bdb7a80e8d81b61ff6da
-#UI/UX дизайн в Figma
+
+## UI/UX дизайн в Figma
 * https://www.figma.com/design/DoR3vGxJL5vxQWQyNk3FLh/FindIt?node-id=1-7&t=5dsp3taPcLPakPky-0
 
