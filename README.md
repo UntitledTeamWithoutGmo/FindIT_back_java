@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 =======
 ![](pict/Summary.png)
 # FindIT
@@ -15,6 +15,11 @@
 #### Приложение делится на серверную, клиентскую и веб части.
 ### Серверная часть(HTTP)
 Взаимодействие с данной частью осуществляется по HTTP протоколу при помощи архитектуры REST API.
+## Инструкция к запуску
+#### 1. Скопируйте репозиторий - https://github.com/UntitledTeamWithoutGmo/find_it_docker комадной ``` git clone ```
+#### 2. Запустите приложение командой ``` docker compoose up --build ```
+#### 3. После запуска перейдите на ` localhost:6001/main-page`
+## ВАЖНО - на странице с регистрацией делать наджный пароль
 
 ### Стек технологий
 * Spring Framework: Spring boot, Spring Security
@@ -36,4 +41,7 @@
 
 ## UI/UX дизайн в Figma
 * https://www.figma.com/design/DoR3vGxJL5vxQWQyNk3FLh/FindIt?node-id=1-7&t=5dsp3taPcLPakPky-0
-
+## Docker images
+* основной сервис - https://hub.docker.com/r/korolshutov/find_it_back_main_45
+* микросервис для проверки кода - https://hub.docker.com/r/korolshutov/find_it_back_code_8
+* frontend - https://hub.docker.com/r/korolshutov/find_it_frontend_3
