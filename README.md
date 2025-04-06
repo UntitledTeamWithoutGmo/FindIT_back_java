@@ -51,7 +51,11 @@
 * https://www.figma.com/design/DoR3vGxJL5vxQWQyNk3FLh/FindIt?node-id=1-7&t=5dsp3taPcLPakPky-0
 ## Docker images
 * основной сервис - https://hub.docker.com/r/korolshutov/find_it_back_main_45
-* микросервис для проверки кода - https://hub.docker.com/r/korolshutov/find_it_back_code_8
+* микросервис для компиляции и проверки кода - https://hub.docker.com/r/korolshutov/find_it_back_code_8
 * frontend - https://hub.docker.com/r/korolshutov/find_it_frontend_3
+## Repositories 
+* frontend - https://github.com/UntitledTeamWithoutGmo/FindIT_front_web/tree/yura
+* backend(основной сервис) - https://github.com/UntitledTeamWithoutGmo/FindIT_back_java
+* backend( микросервис для компиляции и проверки кода ) - https://github.com/UntitledTeamWithoutGmo/find_it_back_java_code_test
 ## P.S
 #### Данный проект немного не доделан и создавался для учебного проекта .Проект не имеет даже статуса MVP,а просто воплощает идею.
